@@ -1,0 +1,41 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import "../assets/base.css"
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content={description}>
+		<meta name="robots" content="index, follow">
+		<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+		<meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+		<meta property="og:locale" content="en_GB">
+		<meta property="og:type" content="website">
+		<meta property="og:title" content={title}>
+		<meta property="og:description" content={description}>
+		<meta property="og:site_name" content="Jordan Tauscher">
+		<meta property="og:image" content="/favicon.svg">
+		<meta name="viewport" content="width=device-width" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} - Jordan Tauscher</title>
+		<ViewTransitions />
+	</head>
+	<body class="text-neutral-600 font-body bg-neutral-50">
+		<slot />
+	</body>
+</html>

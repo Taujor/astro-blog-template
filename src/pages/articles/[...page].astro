@@ -1,0 +1,40 @@
+---
+import App from "../../layouts/App.astro"
+import Articles from "../../components/Articles"
+import { getCollection } from 'astro:content';
+
+export async function getArticleDataByDecendingDate(){
+    const articleCollection = await getCollection('articles');
+    const data = (await Promise.all(articleCollection.map(async entry => {
+    const {remarkPluginFrontmatter} = await entry.render()
+
+    remarkPluginFrontmatter.birthtime = new Date(remarkPluginFrontmatter.birthtime)
+    remarkPluginFrontmatter.lastModified = new Date(remarkPluginFrontmatter.lastModified)
+
+    return {...entry, data: remarkPluginFrontmatter}
+    }))).sort((a, b) => b.data.birthtime.getTime() - a.data.birthtime.getTime())
+    
+    return data
+}
+
+export const articles = await getArticleDataByDecendingDate()
+
+export async function getStaticPaths({ paginate }){
+    return paginate(articles, {pageSize: 5})
+}
+
+const { page } = Astro.props
+
+const { pageData, articleData } = Object.entries(page).reduce((acc, [key, value]) => {
+    if (Array.isArray(value) || (typeof value === 'object' && value !== null)) {
+        key === "url" ? acc.pageData[key] = value : acc.articleData[key] = value;
+    } else {
+        acc.pageData[key] = value;
+    }
+    return acc;
+}, { pageData: {}, articleData: {} });
+---
+
+<App title="Articles" description="description here">
+	<Articles page={pageData} meta={articleData}/>
+</App>

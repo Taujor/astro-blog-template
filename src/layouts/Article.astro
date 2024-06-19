@@ -1,0 +1,38 @@
+---
+import "../assets/base.css"
+import { ViewTransitions } from 'astro:transitions';
+
+interface Props {
+	meta: {
+        title?: string;
+        pubDate?: Date;
+        description?: string;
+        author?: string;
+        image?: {
+            url?: string;
+            alt?: string;
+        };
+        tags?: string[];
+    }
+}
+
+const { meta } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={meta.description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{meta.title}</title>
+		<ViewTransitions />
+	</head>
+	<body class="text-neutral-600 font-body bg-neutral-50">
+		<slot />
+	</body>
+</html>
